@@ -1,11 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 
-const app = express();
+const initRoutes = require("./api/routes");
 
-app.get("/", (req, res) => {
-  res.json({ message: "Hello" });
-});
+const app = express();
+initRoutes(app);
 
 const port = process.env.PORT || 5000;
 

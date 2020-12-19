@@ -1,10 +1,10 @@
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   console.log("Post /api/login");
 
   res.end();
 };
 
-exports.addOne = (req, res) => {
+exports.addOne = async (req, res) => {
   console.log("Post /api/users");
 
   res.end();

@@ -3,7 +3,9 @@ const cors = require("cors");
 const userRouter = require("./routers/userRouter");
 const noteRouter = require("./routers/noteRouter");
 
-module.exports = function initRoutes(app) {
+const errorMiddleware = require("./middlewares/errorMiddleware");
+
+module.exports = (app) => {
   app.use(cors());
 
   app.get("/", (req, res) => res.redirect("/api"));
@@ -12,4 +14,6 @@ module.exports = function initRoutes(app) {
 
   app.use("/api/notes", noteRouter);
   app.use("/api", userRouter);
+
+  app.use(errorMiddleware);
 };

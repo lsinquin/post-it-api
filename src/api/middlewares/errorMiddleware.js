@@ -1,4 +1,3 @@
-const winston = require("winston/lib/winston/config");
 const logger = require("../../utils/logger");
 
 module.exports = (error, req, res, next) => {

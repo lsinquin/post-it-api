@@ -1,6 +1,6 @@
 const cors = require("cors");
 
-const userRouter = require("./routers/userRouter");
+const accountRouter = require("./routers/accountRouter");
 const noteRouter = require("./routers/noteRouter");
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
@@ -13,7 +13,7 @@ module.exports = (app) => {
   app.get("/api", (req, res) => res.send("Welcome to the Post-It API"));
 
   app.use("/api/notes", noteRouter);
-  app.use("/api", userRouter);
+  app.use("/api", accountRouter);
 
   app.use(errorMiddleware);
 };

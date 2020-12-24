@@ -20,7 +20,6 @@ exports.getNoteById = async (id) => {
 };
 
 exports.insertNote = async (title, content, accountId) => {
-  console.log(accountId);
   const { rows } = await connection.query(INSERT_NOTE, [
     title,
     content,

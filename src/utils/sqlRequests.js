@@ -8,7 +8,7 @@ const sqlRequests = {
   DELETE_NOTE_BY_ID: "DELETE FROM note WHERE id = $1",
   INSERT_ACCOUNT:
     "INSERT INTO account(mail, password) VALUES ($1, $2) RETURNING *",
-  SELECT_ACCOUNT_BY_ID: "SELECT * FROM account WHERE id = $1",
+  SELECT_ACCOUNT_BY_MAIL: "SELECT * FROM account WHERE mail = $1",
 };
 
 module.exports = sqlRequests;

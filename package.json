@@ -8,9 +8,11 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "testdb": "node src/testdb.js"
+    "testdb": "node src/testdb.js",
+    "test-services": "node src/testServices.js"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

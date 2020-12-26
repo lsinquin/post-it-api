@@ -1,3 +1,4 @@
+const express = require("express");
 const cors = require("cors");
 
 const accountRouter = require("./routers/accountRouter");
@@ -7,6 +8,7 @@ const errorMiddleware = require("./middlewares/errorMiddleware");
 
 module.exports = (app) => {
   app.use(cors());
+  app.use(express.json());
 
   app.get("/", (req, res) => res.redirect("/api"));
 

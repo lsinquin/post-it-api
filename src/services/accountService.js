@@ -7,18 +7,19 @@ exports.login = async (mail, password) => {
   const [account] = await accountDao.getAccountByMail(mail);
 
   if (!account) {
-    throw new Error("NO_ACCOUNT_FOUND");
+    return false;
+    // throw new Error("NO_ACCOUNT_FOUND");
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, account.password);
 
-  if (!isPasswordCorrect) {
-    throw new Error("LOGIN_NOT_AUTHORIZED");
-  }
+  // if (!isPasswordCorrect) {
+  //   throw new Error("LOGIN_NOT_AUTHORIZED");
+  // }
 
   //set up token for authentification
 
-  return true;
+  return isPasswordCorrect;
 };
 
 exports.createAccount = async (mail, password) => {

@@ -4,7 +4,7 @@ const { BCRYPT_ROUNDS } = require("../utils/constants");
 const accountDao = require("../db/daos/accountDao");
 
 exports.login = async (mail, password) => {
-  const [account] = await accountDao.getAccountByMail(mail);
+  const account = await accountDao.getAccountByMail(mail);
 
   if (!account) {
     return false;

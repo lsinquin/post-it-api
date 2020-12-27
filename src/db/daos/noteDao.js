@@ -14,33 +14,33 @@ exports.getAllNotes = async () => {
 };
 
 exports.getNoteById = async (id) => {
-  const { rows } = await connection.query(SELECT_NOTE_BY_ID, [id]);
+  const {
+    rows: [note],
+  } = await connection.query(SELECT_NOTE_BY_ID, [id]);
 
-  return rows;
+  return note;
 };
 
 exports.insertNote = async (title, content, accountId) => {
-  const { rows } = await connection.query(INSERT_NOTE, [
-    title,
-    content,
-    accountId,
-  ]);
+  const {
+    rows: [insertedNote],
+  } = await connection.query(INSERT_NOTE, [title, content, accountId]);
 
-  return rows;
+  return insertedNote;
 };
 
 exports.updateNoteById = async (id, title, content) => {
-  const { rows } = await connection.query(UPDATE_NOTE_BY_ID, [
-    id,
-    title,
-    content,
-  ]);
+  const {
+    rows: [updatedNote],
+  } = await connection.query(UPDATE_NOTE_BY_ID, [id, title, content]);
 
-  return rows;
+  return updatedNote;
 };
 
 exports.deleteNoteById = async (id) => {
-  const { rows } = await connection.query(DELETE_NOTE_BY_ID, [id]);
+  const {
+    rows: [deletedNote],
+  } = await connection.query(DELETE_NOTE_BY_ID, [id]);
 
-  return rows;
+  return deletedNote;
 };

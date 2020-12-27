@@ -5,13 +5,17 @@ const {
 } = require("../../utils/sqlRequests");
 
 exports.getAccountByMail = async (mail) => {
-  const { rows } = await connection.query(SELECT_ACCOUNT_BY_MAIL, [mail]);
+  const {
+    rows: [account],
+  } = await connection.query(SELECT_ACCOUNT_BY_MAIL, [mail]);
 
-  return rows;
+  return account;
 };
 
 exports.insertAccount = async (mail, password) => {
-  const { rows } = await connection.query(INSERT_ACCOUNT, [mail, password]);
+  const {
+    rows: [insertedAccount],
+  } = await connection.query(INSERT_ACCOUNT, [mail, password]);
 
-  return rows;
+  return insertedAccount;
 };

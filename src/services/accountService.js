@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const { BCRYPT_ROUNDS } = require("../utils/constants");
 const accountDao = require("../db/daos/accountDao");
 
-exports.login = async (mail, password) => {
+exports.signIn = async (mail, password) => {
   const account = await accountDao.getAccountByMail(mail);
 
   if (!account) {
@@ -14,7 +14,7 @@ exports.login = async (mail, password) => {
   const isPasswordCorrect = await bcrypt.compare(password, account.password);
 
   // if (!isPasswordCorrect) {
-  //   throw new Error("LOGIN_NOT_AUTHORIZED");
+  //   throw new Error("SIGN_IN_NOT_AUTHORIZED");
   // }
 
   //set up token for authentification

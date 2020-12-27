@@ -1,19 +1,19 @@
 const accountService = require("../../services/accountService");
 
-exports.login = async (req, res) => {
+exports.signIn = async (req, res) => {
   const { mail, password } = req.body;
 
   if (!mail || !password) {
     res.status(400).send({
-      message: "mail and password fields are mandatory to login",
+      message: "mail and password fields are mandatory to sign in",
     });
 
     return;
   }
 
-  const isLoggedIn = await accountService.login(mail, password);
+  const isSignedIn = await accountService.signIn(mail, password);
 
-  if (isLoggedIn) {
+  if (isSignedIn) {
     res.status(200);
   } else {
     res.status(401);
@@ -22,7 +22,7 @@ exports.login = async (req, res) => {
   res.end();
 };
 
-exports.addOne = async (req, res) => {
+exports.signUp = async (req, res) => {
   const { mail, password } = req.body;
 
   if (!mail || !password) {

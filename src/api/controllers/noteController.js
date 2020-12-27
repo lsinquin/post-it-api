@@ -9,7 +9,11 @@ exports.getAllNotes = async (req, res) => {
 exports.getNote = async (req, res) => {
   const note = await noteService.fetchNote(req.params.id);
 
-  res.json(note);
+  if (!note) {
+    res.status(204).end();
+  } else {
+    res.json(note);
+  }
 };
 
 exports.modifyNote = async (req, res) => {
@@ -25,13 +29,21 @@ exports.modifyNote = async (req, res) => {
 
   const updatedNote = await noteService.saveNote(req.params.id, title, content);
 
-  res.json(updatedNote);
+  if (!updatedNote) {
+    res.status(204).end();
+  } else {
+    res.json(updatedNote);
+  }
 };
 
 exports.deleteNote = async (req, res) => {
-  const note = await noteService.deleteNote(req.params.id);
+  const deletedNote = await noteService.deleteNote(req.params.id);
 
-  res.json(note);
+  if (!deletedNote) {
+    res.status(204).end();
+  } else {
+    res.json(deletedNote);
+  }
 };
 
 exports.postNote = async (req, res) => {

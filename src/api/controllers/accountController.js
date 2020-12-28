@@ -1,11 +1,12 @@
 const accountService = require("../../services/accountService");
+const ExistingAccountError = require("../../utils/ExistingAccountError");
 
 exports.signIn = async (req, res) => {
   const { mail, password } = req.body;
 
   if (!mail || !password) {
     res.status(400).send({
-      message: "mail and password fields are mandatory to sign in",
+      message: "mail and password fields are mandatory",
     });
 
     return;
@@ -23,17 +24,27 @@ exports.signIn = async (req, res) => {
 };
 
 exports.signUp = async (req, res) => {
-  const { mail, password } = req.body;
+  try {
+    const { mail, password } = req.body;
 
-  if (!mail || !password) {
-    res.status(400).send({
-      message: "mail and password fields are mandatory",
-    });
+    if (!mail || !password) {
+      res.status(400).send({
+        message: "mail and password fields are mandatory",
+      });
 
-    return;
+      return;
+    }
+
+    const createdAccount = await accountService.createAccount(mail, password);
+
+    res.json(createdAccount);
+  } catch (error) {
+    if (error instanceof ExistingAccountError) {
+      res.status(400).send({
+        message: error.message,
+      });
+    } else {
+      throw error;
+    }
   }
-
-  const createdAccount = await accountService.createAccount(mail, password);
-
-  res.json(createdAccount);
 };

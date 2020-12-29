@@ -1,25 +1,24 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const { BCRYPT_ROUNDS } = require("../utils/constants");
 const accountDao = require("../db/daos/accountDao");
+const AuthentificationError = require("../utils/errors/AuthentificationError");
 
 exports.signIn = async (mail, password) => {
   const account = await accountDao.getAccountByMail(mail);
 
   if (!account) {
-    return false;
-    // throw new Error("NO_ACCOUNT_FOUND");
+    throw new AuthentificationError("No account found for this mail");
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, account.password);
 
-  // if (!isPasswordCorrect) {
-  //   throw new Error("SIGN_IN_NOT_AUTHORIZED");
-  // }
+  if (!isPasswordCorrect) {
+    throw new AuthentificationError("Wrong password");
+  }
 
-  //set up token for authentification
-
-  return isPasswordCorrect;
+  return generateAccessToken(account.id, account.mail);
 };
 
 exports.createAccount = async (mail, password) => {
@@ -27,3 +26,15 @@ exports.createAccount = async (mail, password) => {
 
   return accountDao.insertAccount(mail, hashedPassword);
 };
+
+generateAccessToken = (id, mail) =>
+  jwt.sign(
+    {
+      accountId: id,
+      mail: mail,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
+
+verifyAccessToken = (token) => jwt.verify(token, process.env.JWT_SECRET);

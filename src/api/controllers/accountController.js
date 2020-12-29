@@ -1,26 +1,30 @@
 const accountService = require("../../services/accountService");
-const ExistingAccountError = require("../../utils/ExistingAccountError");
-
+const ExistingAccountError = require("../../utils/errors/ExistingAccountError");
+const AuthentificationError = require("../../utils/errors/AuthentificationError");
 exports.signIn = async (req, res) => {
-  const { mail, password } = req.body;
+  try {
+    const { mail, password } = req.body;
 
-  if (!mail || !password) {
-    res.status(400).send({
-      message: "mail and password fields are mandatory",
-    });
+    if (!mail || !password) {
+      res.status(400).send({
+        message: "mail and password fields are mandatory",
+      });
 
-    return;
+      return;
+    }
+
+    const token = await accountService.signIn(mail, password);
+
+    res.json({ token: token });
+  } catch (error) {
+    if (error instanceof AuthentificationError) {
+      res.status(401).send({
+        message: error.message,
+      });
+    } else {
+      throw error;
+    }
   }
-
-  const isSignedIn = await accountService.signIn(mail, password);
-
-  if (isSignedIn) {
-    res.status(200);
-  } else {
-    res.status(401);
-  }
-
-  res.end();
 };
 
 exports.signUp = async (req, res) => {

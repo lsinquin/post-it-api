@@ -2,7 +2,7 @@ const {
   INSERT_ACCOUNT,
   SELECT_ACCOUNT_BY_MAIL,
 } = require("../../utils/sqlRequests");
-const { UNIQUE_VIOLATION_CODE } = require("../../utils/pgErrorCode");
+const { UNIQUE_VIOLATION_CODE } = require("../../utils/pgErrorCodes");
 const ExistingAccountError = require("../../utils/ExistingAccountError");
 const connection = require("../connection");
 

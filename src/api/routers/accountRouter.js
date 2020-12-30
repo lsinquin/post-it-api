@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const wrapRoute = require("../../utils/wrapRoute");
+const asyncRouteFn = require("../../utils/asyncRouteFn");
 const accountController = require("../controllers/accountController");
 
-router.post("/signin", wrapRoute(accountController.signIn));
-router.post("/signup", wrapRoute(accountController.signUp));
+router.post("/signin", asyncRouteFn(accountController.signIn));
+router.post("/signup", asyncRouteFn(accountController.signUp));
 
 module.exports = router;

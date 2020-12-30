@@ -2,6 +2,8 @@ const sqlRequests = {
   INSERT_NOTE:
     'INSERT INTO note(title, content, "accountId") VALUES ($1, $2, $3) RETURNING *',
   SELECT_ALL_NOTES: "SELECT * FROM note ORDER BY id ASC",
+  SELECT_NOTES_BY_ACCOUNT_ID:
+    'SELECT id, title FROM note WHERE "accountId" = $1 ORDER BY id ASC',
   SELECT_NOTE_BY_ID: "SELECT * FROM note WHERE id = $1",
   UPDATE_NOTE_BY_ID:
     "UPDATE note SET title = $2, content = $3 WHERE id = $1 RETURNING *",

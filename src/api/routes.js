@@ -5,7 +5,6 @@ const accountRouter = require("./routers/accountRouter");
 const noteRouter = require("./routers/noteRouter");
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
-const jwtMiddleware = require("./middlewares/jwtMiddleware");
 
 module.exports = (app) => {
   app.use(cors());
@@ -15,7 +14,6 @@ module.exports = (app) => {
 
   app.get("/api", (req, res) => res.send("Welcome to the Post-It API"));
 
-  app.use("/api/notes", jwtMiddleware);
   app.use("/api/notes", noteRouter);
 
   app.use("/api", accountRouter);

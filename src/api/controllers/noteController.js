@@ -1,20 +1,12 @@
 const noteService = require("../../services/noteService");
 
-exports.getAllNotes = async (req, res) => {
-  const notes = await noteService.fetchNotes();
+exports.getAccountNotes = async (req, res) => {
+  const notes = await noteService.fetchNotes(req.account.id);
 
   res.json(notes);
 };
 
-exports.getNote = async (req, res) => {
-  const note = await noteService.fetchNote(req.params.id);
-
-  if (!note) {
-    res.status(204).end();
-  } else {
-    res.json(note);
-  }
-};
+exports.getNote = (req, res) => res.json(req.note);
 
 exports.modifyNote = async (req, res) => {
   const { title, content } = req.body;
@@ -57,7 +49,11 @@ exports.postNote = async (req, res) => {
     return;
   }
 
-  const createdNote = await noteService.createNote(title, content, 3);
+  const createdNote = await noteService.createNote(
+    title,
+    content,
+    req.account.id
+  );
 
   res.json(createdNote);
 };

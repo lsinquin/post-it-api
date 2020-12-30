@@ -1,6 +1,7 @@
 const noteDao = require("../db/daos/noteDao");
 
-exports.fetchNotes = async () => noteDao.getAllNotes();
+exports.fetchNotes = async (accountId) =>
+  noteDao.getNotesByAccountId(accountId);
 
 exports.fetchNote = async (id) => noteDao.getNoteById(id);
 

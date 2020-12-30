@@ -1,16 +1,18 @@
 const connection = require("../connection");
 const {
   INSERT_NOTE,
-  SELECT_ALL_NOTES,
+  SELECT_NOTES_BY_ACCOUNT_ID,
   SELECT_NOTE_BY_ID,
   UPDATE_NOTE_BY_ID,
   DELETE_NOTE_BY_ID,
 } = require("../../utils/sqlRequests");
 
-exports.getAllNotes = async () => {
-  const { rows } = await connection.query(SELECT_ALL_NOTES);
+exports.getNotesByAccountId = async (accountId) => {
+  const { rows: notes } = await connection.query(SELECT_NOTES_BY_ACCOUNT_ID, [
+    accountId,
+  ]);
 
-  return rows;
+  return notes;
 };
 
 exports.getNoteById = async (id) => {

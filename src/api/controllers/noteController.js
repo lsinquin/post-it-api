@@ -7,7 +7,11 @@ exports.getAccountNotes = async (req, res) => {
   res.json(notes);
 };
 
-exports.getNote = (req, res) => res.json(req.note);
+exports.getNote = (req, res) => {
+  const { id, title, content } = req.note;
+
+  res.json({ id, title, content });
+};
 
 exports.modifyNote = async (req, res) => {
   const { title, content } = req.body;

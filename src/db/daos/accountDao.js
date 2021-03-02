@@ -23,7 +23,7 @@ exports.insertAccount = async (mail, password) => {
     return insertedAccount;
   } catch (error) {
     if (error.code === UNIQUE_VIOLATION_CODE) {
-      throw new ExistingAccountError("An account already exists for this mail");
+      throw new ExistingAccountError();
     } else {
       throw error;
     }

@@ -1,4 +1,5 @@
 const noteService = require("../../services/noteService");
+const MissingNoteInfoError = require("../../utils/errors/MissingNoteInfoError");
 
 exports.getAccountNotes = async (req, res) => {
   const notes = await noteService.fetchNotes(req.account.id);
@@ -11,12 +12,8 @@ exports.getNote = (req, res) => res.json(req.note);
 exports.modifyNote = async (req, res) => {
   const { title, content } = req.body;
 
-  if (!title) {
-    res.status(400).send({
-      message: "title field is mandatory",
-    });
-
-    return;
+  if (isParamsInvalid(title, content)) {
+    throw new MissingNoteInfoError();
   }
 
   const updatedNote = await noteService.saveNote(req.params.id, title, content);
@@ -41,12 +38,8 @@ exports.deleteNote = async (req, res) => {
 exports.postNote = async (req, res) => {
   const { title, content } = req.body;
 
-  if (!title) {
-    res.status(400).send({
-      message: "title field is mandatory",
-    });
-
-    return;
+  if (isParamsInvalid(title, content)) {
+    throw new MissingNoteInfoError();
   }
 
   const createdNote = await noteService.createNote(
@@ -56,4 +49,13 @@ exports.postNote = async (req, res) => {
   );
 
   res.json(createdNote);
+};
+
+const isParamsInvalid = (title, content) => {
+  return (
+    title === undefined ||
+    title === null ||
+    content === undefined ||
+    content === null
+  );
 };

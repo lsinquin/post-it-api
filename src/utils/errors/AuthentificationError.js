@@ -1,9 +1,14 @@
-const AppError = require("./AppError");
+const ServerError = require("./ServerError");
 
-class ExistingAccountError extends AppError {
-  constructor(...params) {
-    super(...params);
+class AuthentificationError extends ServerError {
+  constructor() {
+    super(
+      "err_authentification",
+      "Le header Authorization n'est pas correcte ou manquant",
+      401
+    );
+    this.name = "AuthentificationError";
   }
 }
 
-module.exports = ExistingAccountError;
+module.exports = AuthentificationError;

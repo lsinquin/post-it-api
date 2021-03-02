@@ -1,4 +1,5 @@
 const noteService = require("../../services/noteService");
+const AuthorizationError = require("../../utils/errors/AuthorizationError");
 
 module.exports = async (req, res, next) => {
   const note = await noteService.fetchNote(req.params.id);
@@ -8,7 +9,7 @@ module.exports = async (req, res, next) => {
   }
 
   if (note.accountId !== req.account.id) {
-    return res.status(403).end();
+    throw new AuthorizationError();
   }
 
   req.note = note;

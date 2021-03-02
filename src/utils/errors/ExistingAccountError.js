@@ -1,8 +1,13 @@
-const AppError = require("./AppError");
+const ServerError = require("./ServerError");
 
-class ExistingAccountError extends AppError {
-  constructor(...params) {
-    super(...params);
+class ExistingAccountError extends ServerError {
+  constructor() {
+    super(
+      "err_existing_account",
+      "Un compte existe déjà pour cette adresse mail",
+      400
+    );
+    this.name = "ExistingAccountError";
   }
 }
 

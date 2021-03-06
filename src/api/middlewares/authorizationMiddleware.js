@@ -1,5 +1,6 @@
+const { ERR_NOT_ALLOWED } = require("../../utils/errorCodes");
 const noteService = require("../../services/noteService");
-const AuthorizationError = require("../../utils/errors/AuthorizationError");
+const HttpError = require("../../utils/errors/HttpError");
 
 module.exports = async (req, res, next) => {
   const note = await noteService.fetchNote(req.params.id);
@@ -9,7 +10,11 @@ module.exports = async (req, res, next) => {
   }
 
   if (note.accountId !== req.account.id) {
-    throw new AuthorizationError();
+    throw new HttpError(
+      "Interdiction d'accéder à cette ressource",
+      ERR_NOT_ALLOWED,
+      403
+    );
   }
 
   req.note = note;

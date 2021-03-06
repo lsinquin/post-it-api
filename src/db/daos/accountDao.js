@@ -2,8 +2,6 @@ const {
   INSERT_ACCOUNT,
   SELECT_ACCOUNT_BY_MAIL,
 } = require("../../utils/sqlRequests");
-const { UNIQUE_VIOLATION_CODE } = require("../../utils/pgErrorCodes");
-const ExistingAccountError = require("../../utils/errors/ExistingAccountError");
 const connection = require("../connection");
 
 exports.getAccountByMail = async (mail) => {
@@ -15,17 +13,9 @@ exports.getAccountByMail = async (mail) => {
 };
 
 exports.insertAccount = async (mail, password) => {
-  try {
-    const {
-      rows: [insertedAccount],
-    } = await connection.query(INSERT_ACCOUNT, [mail, password]);
+  const {
+    rows: [insertedAccount],
+  } = await connection.query(INSERT_ACCOUNT, [mail, password]);
 
-    return insertedAccount;
-  } catch (error) {
-    if (error.code === UNIQUE_VIOLATION_CODE) {
-      throw new ExistingAccountError();
-    } else {
-      throw error;
-    }
-  }
+  return insertedAccount;
 };

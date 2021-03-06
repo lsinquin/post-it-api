@@ -1,12 +1,8 @@
-const ServerError = require("./ServerError");
+const BusinessError = require("./BusinessError");
 
-class NoAccountError extends ServerError {
+class NoAccountError extends BusinessError {
   constructor() {
-    super(
-      "err_no_account_found",
-      "Aucun compte n'existe pour cette adresse mail",
-      401
-    );
+    super("Aucun compte n'existe pour cette adresse mail");
     this.name = "NoAccountError";
   }
 }

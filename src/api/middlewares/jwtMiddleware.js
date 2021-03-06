@@ -1,14 +1,19 @@
 const jwt = require("jsonwebtoken");
-const AuthentificationError = require("../../utils/errors/AuthentificationError");
+const { ERR_AUTHENTIFICATION } = require("../../utils/errorCodes");
+const HttpError = require("../../utils/errors/HttpError");
 
 module.exports = (req, res, next) => {
+  const authToken = req.header("Authorization");
+
+  if (!authToken) {
+    throw new HttpError(
+      "Le header Authorization est manquant",
+      "err_authentification",
+      401
+    );
+  }
+
   try {
-    const authToken = req.header("Authorization");
-
-    if (!authToken) {
-      throw new AuthentificationError();
-    }
-
     const decodedPayload = jwt.verify(authToken, process.env.JWT_SECRET);
 
     req.account = {
@@ -18,6 +23,10 @@ module.exports = (req, res, next) => {
 
     next();
   } catch (error) {
-    throw new AuthentificationError();
+    throw new HttpError(
+      "Le header Authorization n'est pas correcte",
+      ERR_AUTHENTIFICATION,
+      401
+    );
   }
 };

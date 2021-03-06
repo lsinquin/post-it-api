@@ -1,12 +1,8 @@
-const ServerError = require("./ServerError");
+const BusinessError = require("./BusinessError");
 
-class ExistingAccountError extends ServerError {
+class ExistingAccountError extends BusinessError {
   constructor() {
-    super(
-      "err_existing_account",
-      "Un compte existe déjà pour cette adresse mail",
-      400
-    );
+    super("Un compte existe déjà pour cette adresse mail");
     this.name = "ExistingAccountError";
   }
 }

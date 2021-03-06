@@ -9,7 +9,7 @@ router.use("/:id", asyncRouteFn(authorizationMiddleware));
 
 router.get("/", asyncRouteFn(noteController.getAccountNotes));
 router.get("/:id", noteController.getNote);
-router.put("/:id", asyncRouteFn(noteController.modifyNote));
+router.put("/:id", asyncRouteFn(noteController.updateNote));
 router.delete("/:id", asyncRouteFn(noteController.deleteNote));
 router.post("/", asyncRouteFn(noteController.postNote));
 

@@ -1,5 +1,6 @@
 const noteService = require("../../services/noteService");
-const MissingNoteInfoError = require("../../utils/errors/MissingNoteInfoError");
+const HttpError = require("../../utils/errors/HttpError");
+const { ERR_MISSING_NOTE_INFO } = require("../../utils/errorCodes");
 
 exports.getAccountNotes = async (req, res) => {
   const notes = await noteService.fetchNotes(req.account.id);
@@ -13,11 +14,15 @@ exports.getNote = (req, res) => {
   res.json({ id, title, content });
 };
 
-exports.modifyNote = async (req, res) => {
+exports.updateNote = async (req, res) => {
   const { title, content } = req.body;
 
-  if (isParamsInvalid(title, content)) {
-    throw new MissingNoteInfoError();
+  if (areParamsInvalid(title, content)) {
+    throw new HttpError(
+      "Les champs titre et content sont obligatoires",
+      ERR_MISSING_NOTE_INFO,
+      400
+    );
   }
 
   const updatedNote = await noteService.saveNote(req.params.id, title, content);
@@ -42,8 +47,12 @@ exports.deleteNote = async (req, res) => {
 exports.postNote = async (req, res) => {
   const { title, content } = req.body;
 
-  if (isParamsInvalid(title, content)) {
-    throw new MissingNoteInfoError();
+  if (areParamsInvalid(title, content)) {
+    throw new HttpError(
+      "Les champs titre et content sont obligatoires",
+      ERR_MISSING_NOTE_INFO,
+      400
+    );
   }
 
   const createdNote = await noteService.createNote(
@@ -55,7 +64,8 @@ exports.postNote = async (req, res) => {
   res.json(createdNote);
 };
 
-const isParamsInvalid = (title, content) => {
+//Letting empty string through
+const areParamsInvalid = (title, content) => {
   return (
     title === undefined ||
     title === null ||

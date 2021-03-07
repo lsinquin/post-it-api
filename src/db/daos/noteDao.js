@@ -5,7 +5,7 @@ const {
   SELECT_NOTE_BY_ID,
   UPDATE_NOTE_BY_ID,
   DELETE_NOTE_BY_ID,
-} = require("../../utils/sqlRequests");
+} = require("../sqlRequests");
 
 exports.getNotesByAccountId = async (accountId) => {
   const { rows: notes } = await connection.query(SELECT_NOTES_BY_ACCOUNT_ID, [

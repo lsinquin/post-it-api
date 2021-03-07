@@ -1,6 +1,6 @@
 const noteService = require("../../services/noteService");
-const HttpError = require("../../utils/errors/HttpError");
-const { ERR_MISSING_NOTE_INFO } = require("../../utils/errorCodes");
+const HttpError = require("../HttpError");
+const { ERR_MISSING_NOTE_INFO } = require("../errorCodes");
 
 exports.getAccountNotes = async (req, res) => {
   const notes = await noteService.fetchNotes(req.account.id);

@@ -1,7 +1,4 @@
-const {
-  INSERT_ACCOUNT,
-  SELECT_ACCOUNT_BY_MAIL,
-} = require("../../utils/sqlRequests");
+const { INSERT_ACCOUNT, SELECT_ACCOUNT_BY_MAIL } = require("../sqlRequests");
 const connection = require("../connection");
 
 exports.getAccountByMail = async (mail) => {

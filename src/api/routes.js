@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
+const authRouter = require("./routers/authRouter");
 const accountRouter = require("./routers/accountRouter");
 const noteRouter = require("./routers/noteRouter");
 
@@ -16,7 +17,9 @@ module.exports = (app) => {
 
   app.use("/api/notes", noteRouter);
 
-  app.use("/api", accountRouter);
+  app.use("/api/accounts", accountRouter);
+
+  app.use("/api", authRouter);
 
   app.use(errorMiddleware);
 };

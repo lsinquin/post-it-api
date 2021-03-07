@@ -3,11 +3,11 @@ const {
   ERR_NO_ACCOUNT,
   ERR_WRONG_CREDENTIALS,
   ERR_UNKNOWN,
-} = require("../../utils/errorCodes");
-const HttpError = require("../../utils/errors/HttpError");
-const ExistingAccountError = require("../../utils/errors/ExistingAccountError");
-const NoAccountError = require("../../utils/errors/NoAccountError");
-const WrongCredentialsError = require("../../utils/errors/WrongCredentialsError");
+} = require("../errorCodes");
+const HttpError = require("../HttpError");
+const ExistingAccountError = require("../../services/errors/ExistingAccountError");
+const NoAccountError = require("../../services/errors/NoAccountError");
+const WrongCredentialsError = require("../../services/errors/WrongCredentialsError");
 
 module.exports = (error, req, res, next) => {
   if (error instanceof HttpError) {

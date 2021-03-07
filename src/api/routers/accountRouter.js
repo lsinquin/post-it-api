@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const asyncRouteFn = require("../../utils/asyncRouteFn");
+const asyncRouteFn = require("./asyncRouteFn");
 const accountController = require("../controllers/accountController");
 
-router.post("/signin", asyncRouteFn(accountController.signIn));
-router.post("/signup", asyncRouteFn(accountController.signUp));
+router.post("/", asyncRouteFn(accountController.postAccount));
 
 module.exports = router;

@@ -1,6 +1,6 @@
-const { ERR_NOT_ALLOWED } = require("../../utils/errorCodes");
+const { ERR_NOT_ALLOWED } = require("../errorCodes");
 const noteService = require("../../services/noteService");
-const HttpError = require("../../utils/errors/HttpError");
+const HttpError = require("../HttpError");
 
 module.exports = async (req, res, next) => {
   const note = await noteService.fetchNote(req.params.id);

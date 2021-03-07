@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const asyncRouteFn = require("../../utils/asyncRouteFn");
+const asyncRouteFn = require("./asyncRouteFn");
 const noteController = require("../controllers/noteController");
 const authorizationMiddleware = require("../middlewares/authorizationMiddleware");
 const jwtMiddleware = require("../middlewares/jwtMiddleware");

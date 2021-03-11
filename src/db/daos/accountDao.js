@@ -1,10 +1,9 @@
-const { INSERT_ACCOUNT, SELECT_ACCOUNT_BY_MAIL } = require("../sqlRequests");
 const connection = require("../connection");
 
 exports.getAccountByMail = async (mail) => {
   const {
     rows: [account],
-  } = await connection.query(SELECT_ACCOUNT_BY_MAIL, [mail]);
+  } = await connection.query("SELECT * FROM account WHERE mail = $1", [mail]);
 
   return account;
 };
@@ -12,7 +11,10 @@ exports.getAccountByMail = async (mail) => {
 exports.insertAccount = async (mail, password) => {
   const {
     rows: [insertedAccount],
-  } = await connection.query(INSERT_ACCOUNT, [mail, password]);
+  } = await connection.query(
+    "INSERT INTO account(mail, password) VALUES ($1, $2) RETURNING id, mail",
+    [mail, password]
+  );
 
   return insertedAccount;
 };

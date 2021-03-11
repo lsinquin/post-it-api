@@ -1,16 +1,12 @@
 const connection = require("../connection");
-const {
-  INSERT_NOTE,
-  SELECT_NOTES_BY_ACCOUNT_ID,
-  SELECT_NOTE_BY_ID,
-  UPDATE_NOTE_BY_ID,
-  DELETE_NOTE_BY_ID,
-} = require("../sqlRequests");
 
 exports.getNotesByAccountId = async (accountId) => {
-  const { rows: notes } = await connection.query(SELECT_NOTES_BY_ACCOUNT_ID, [
-    accountId,
-  ]);
+  const {
+    rows: notes,
+  } = await connection.query(
+    'SELECT id, title, content FROM note WHERE "accountId" = $1 ORDER BY id ASC',
+    [accountId]
+  );
 
   return notes;
 };
@@ -18,7 +14,7 @@ exports.getNotesByAccountId = async (accountId) => {
 exports.getNoteById = async (id) => {
   const {
     rows: [note],
-  } = await connection.query(SELECT_NOTE_BY_ID, [id]);
+  } = await connection.query("SELECT * FROM note WHERE id = $1", [id]);
 
   return note;
 };
@@ -26,7 +22,10 @@ exports.getNoteById = async (id) => {
 exports.insertNote = async (title, content, accountId) => {
   const {
     rows: [insertedNote],
-  } = await connection.query(INSERT_NOTE, [title, content, accountId]);
+  } = await connection.query(
+    'INSERT INTO note(title, content, "accountId") VALUES ($1, $2, $3) RETURNING id, title, content',
+    [title, content, accountId]
+  );
 
   return insertedNote;
 };
@@ -34,7 +33,10 @@ exports.insertNote = async (title, content, accountId) => {
 exports.updateNoteById = async (id, title, content) => {
   const {
     rows: [updatedNote],
-  } = await connection.query(UPDATE_NOTE_BY_ID, [id, title, content]);
+  } = await connection.query(
+    "UPDATE note SET title = $2, content = $3 WHERE id = $1 RETURNING id, title, content",
+    [id, title, content]
+  );
 
   return updatedNote;
 };
@@ -42,7 +44,10 @@ exports.updateNoteById = async (id, title, content) => {
 exports.deleteNoteById = async (id) => {
   const {
     rows: [deletedNote],
-  } = await connection.query(DELETE_NOTE_BY_ID, [id]);
+  } = await connection.query(
+    "DELETE FROM note WHERE id = $1 RETURNING id, title, content",
+    [id]
+  );
 
   return deletedNote;
 };

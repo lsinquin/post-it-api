@@ -2,14 +2,13 @@
   "name": "post-it-api",
   "version": "0.1.0",
   "description": "NodeJS API for Post It",
-  "main": "app.js",
   "author": "lsinquin",
+  "main": "app.js",
+  "type": "module",
   "private": true,
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
-    "testdb": "node src/testdb.js",
-    "test-services": "node src/testServices.js"
+    "start": "node --experimental-specifier-resolution=node src/app.js ",
+    "dev": "nodemon --experimental-specifier-resolution=node src/app.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",

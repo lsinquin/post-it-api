@@ -1,25 +1,30 @@
-const router = require("express").Router();
-const asyncRouteFn = require("./asyncRouteFn");
-const noteController = require("../controllers/noteController");
-const authorizationMiddleware = require("../middlewares/authorizationMiddleware");
-const jwtMiddleware = require("../middlewares/jwtMiddleware");
-const noteValidatorMiddleware = require("../middlewares/validatorMiddlewares/noteValidatorMiddleware");
+import express from "express";
+import asyncRouteFn from "./asyncRouteFn";
+import {
+  getAccountNotes,
+  getNote,
+  updateNote,
+  deleteNote,
+  postNote,
+} from "../controllers/noteController";
+import { authorizationMiddleware } from "../middlewares/authorizationMiddleware";
+import { jwtMiddleware } from "../middlewares/jwtMiddleware";
+import { noteValidatorMiddleware } from "../middlewares/validatorMiddlewares/noteValidatorMiddleware";
+
+const router = express.Router();
 
 router.use("/", jwtMiddleware);
 router.use("/:id", asyncRouteFn(authorizationMiddleware));
 
-router.get("/", asyncRouteFn(noteController.getAccountNotes));
-router.get("/:id", noteController.getNote);
-router.delete("/:id", asyncRouteFn(noteController.deleteNote));
+router.get("/", asyncRouteFn(getAccountNotes));
+router.get("/:id", getNote);
+router.delete("/:id", asyncRouteFn(deleteNote));
 router.put(
   "/:id",
   asyncRouteFn(noteValidatorMiddleware),
-  asyncRouteFn(noteController.updateNote)
+  asyncRouteFn(updateNote)
 );
-router.post(
-  "/",
-  asyncRouteFn(noteValidatorMiddleware),
-  asyncRouteFn(noteController.postNote)
-);
+router.post("/", asyncRouteFn(noteValidatorMiddleware), asyncRouteFn(postNote));
 
-module.exports = router;
+export { router };
+export default router;

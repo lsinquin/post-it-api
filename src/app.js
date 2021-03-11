@@ -1,8 +1,9 @@
-require("dotenv").config();
-const morgan = require("morgan");
-const express = require("express");
+import dotenv from "dotenv";
+import morgan from "morgan";
+import express from "express";
+import { initRoutes } from "./api/routes";
 
-const initRoutes = require("./api/routes");
+dotenv.config();
 
 const app = express();
 

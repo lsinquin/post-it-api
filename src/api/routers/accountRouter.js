@@ -1,14 +1,11 @@
-const router = require("express").Router();
-const asyncRouteFn = require("./asyncRouteFn");
-const accountController = require("../controllers/accountController");
-const {
-  postAccountValidator,
-} = require("../middlewares/validatorMiddlewares/accountValidatorMiddleware");
+import express from "express";
+import asyncRouteFn from "./asyncRouteFn";
+import { postAccount } from "../controllers/accountController";
+import { postAccountValidator } from "../middlewares/validatorMiddlewares/accountValidatorMiddleware";
 
-router.post(
-  "/",
-  asyncRouteFn(postAccountValidator),
-  asyncRouteFn(accountController.postAccount)
-);
+const router = express.Router();
 
-module.exports = router;
+router.post("/", asyncRouteFn(postAccountValidator), asyncRouteFn(postAccount));
+
+export { router };
+export default router;

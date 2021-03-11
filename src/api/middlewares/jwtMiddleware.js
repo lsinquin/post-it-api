@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const { ERR_AUTHENTIFICATION } = require("../errorCodes");
-const HttpError = require("../HttpError");
+import jwt from "jsonwebtoken";
+import { ERR_AUTHENTIFICATION } from "../errorCodes";
+import HttpError from "../HttpError";
 
-module.exports = (req, res, next) => {
+function jwtMiddleware(req, res, next) {
   const authToken = req.header("Authorization");
 
   if (!authToken) {
@@ -29,4 +29,7 @@ module.exports = (req, res, next) => {
       401
     );
   }
-};
+}
+
+export { jwtMiddleware };
+export default jwtMiddleware;

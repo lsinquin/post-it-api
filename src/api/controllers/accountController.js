@@ -1,9 +1,11 @@
-const accountService = require("../../services/accountService");
+import { createAccount } from "../../services/accountService";
 
-exports.postAccount = async (req, res) => {
+async function postAccount(req, res) {
   const { mail, password } = req.body;
 
-  const createdAccount = await accountService.createAccount(mail, password);
+  const createdAccount = await createAccount(mail, password);
 
   res.json(createdAccount);
-};
+}
+
+export { postAccount };

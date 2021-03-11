@@ -1,15 +1,15 @@
-const {
+import {
   ERR_EXISTING_ACCOUNT,
   ERR_NO_ACCOUNT,
   ERR_WRONG_CREDENTIALS,
   ERR_UNKNOWN,
-} = require("../errorCodes");
-const HttpError = require("../HttpError");
-const ExistingAccountError = require("../../services/errors/ExistingAccountError");
-const NoAccountError = require("../../services/errors/NoAccountError");
-const WrongCredentialsError = require("../../services/errors/WrongCredentialsError");
+} from "../errorCodes";
+import HttpError from "../HttpError";
+import ExistingAccountError from "../../services/errors/ExistingAccountError";
+import NoAccountError from "../../services/errors/NoAccountError";
+import WrongCredentialsError from "../../services/errors/WrongCredentialsError";
 
-module.exports = (error, req, res, next) => {
+function errorMiddleware(error, req, res, next) {
   // console.log(error);
   if (error instanceof HttpError) {
     return res.status(error.statusCode).send({
@@ -43,4 +43,7 @@ module.exports = (error, req, res, next) => {
     error: ERR_UNKNOWN,
     message: "Une erreur innatendu a eu lieu",
   });
-};
+}
+
+export { errorMiddleware };
+export default errorMiddleware;

@@ -1,7 +1,11 @@
-const { Pool } = require("pg");
+import pg from "pg";
+
+const { Pool } = pg;
 
 // Pool will use the following environment variables to connect to  the database :
 // PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT
 const pool = new Pool();
 
-exports.query = (request, params) => pool.query(request, params);
+const query = (request, params) => pool.query(request, params);
+
+export { query };

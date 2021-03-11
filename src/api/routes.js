@@ -1,13 +1,12 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
+import authRouter from "./routers/authRouter";
+import accountRouter from "./routers/accountRouter";
+import noteRouter from "./routers/noteRouter";
 
-const authRouter = require("./routers/authRouter");
-const accountRouter = require("./routers/accountRouter");
-const noteRouter = require("./routers/noteRouter");
+import { errorMiddleware } from "./middlewares/errorMiddleware";
 
-const errorMiddleware = require("./middlewares/errorMiddleware");
-
-module.exports = (app) => {
+function initRoutes(app) {
   app.use(cors());
   app.use(express.json());
 
@@ -22,4 +21,6 @@ module.exports = (app) => {
   app.use("/api", authRouter);
 
   app.use(errorMiddleware);
-};
+}
+
+export { initRoutes };

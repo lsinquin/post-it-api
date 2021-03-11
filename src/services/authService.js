@@ -1,11 +1,11 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const accountDao = require("../db/daos/accountDao");
-const WrongCredentialsError = require("./errors/WrongCredentialsError");
-const NoAccountError = require("./errors/NoAccountError");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { getAccountByMail } from "../db/daos/accountDao";
+import WrongCredentialsError from "./errors/WrongCredentialsError";
+import NoAccountError from "./errors/NoAccountError";
 
-exports.signIn = async (mail, password) => {
-  const account = await accountDao.getAccountByMail(mail);
+async function logIn(mail, password) {
+  const account = await getAccountByMail(mail);
 
   if (!account) {
     throw new NoAccountError();
@@ -18,10 +18,10 @@ exports.signIn = async (mail, password) => {
   }
 
   return generateAccessToken(account.id, account.mail);
-};
+}
 
-const generateAccessToken = (id, mail) =>
-  jwt.sign(
+function generateAccessToken(id, mail) {
+  return jwt.sign(
     {
       accountId: id,
       mail: mail,
@@ -29,3 +29,6 @@ const generateAccessToken = (id, mail) =>
     process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
+}
+
+export { logIn };

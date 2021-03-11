@@ -1,4 +1,4 @@
-const BusinessError = require("./BusinessError");
+import BusinessError from "./BusinessError";
 
 class NoAccountError extends BusinessError {
   constructor() {
@@ -7,4 +7,5 @@ class NoAccountError extends BusinessError {
   }
 }
 
-module.exports = NoAccountError;
+export { NoAccountError };
+export default NoAccountError;

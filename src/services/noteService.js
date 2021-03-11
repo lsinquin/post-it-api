@@ -1,14 +1,29 @@
-const noteDao = require("../db/daos/noteDao");
+import {
+  getNotesByAccountId,
+  getNoteById,
+  insertNote,
+  updateNoteById,
+  deleteNoteById,
+} from "../db/daos/noteDao";
 
-exports.fetchNotes = async (accountId) =>
-  noteDao.getNotesByAccountId(accountId);
+async function fetchNotes(accountId) {
+  return getNotesByAccountId(accountId);
+}
 
-exports.fetchNote = async (id) => noteDao.getNoteById(id);
+async function fetchNote(id) {
+  return getNoteById(id);
+}
 
-exports.saveNote = async (id, title, content) =>
-  noteDao.updateNoteById(id, title, content);
+async function saveNote(id, title, content) {
+  return updateNoteById(id, title, content);
+}
 
-exports.deleteNote = async (id) => noteDao.deleteNoteById(id);
+async function removeNote(id) {
+  return deleteNoteById(id);
+}
 
-exports.createNote = async (title, content, accountId) =>
-  noteDao.insertNote(title, content, accountId);
+async function createNote(title, content, accountId) {
+  return insertNote(title, content, accountId);
+}
+
+export { fetchNotes, fetchNote, saveNote, removeNote, createNote };

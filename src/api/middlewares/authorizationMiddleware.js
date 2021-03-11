@@ -1,9 +1,9 @@
-const { ERR_NOT_ALLOWED } = require("../errorCodes");
-const noteService = require("../../services/noteService");
-const HttpError = require("../HttpError");
+import { ERR_NOT_ALLOWED } from "../errorCodes";
+import { fetchNote } from "../../services/noteService";
+import HttpError from "../HttpError";
 
-module.exports = async (req, res, next) => {
-  const note = await noteService.fetchNote(req.params.id);
+async function authorizationMiddleware(req, res, next) {
+  const note = await fetchNote(req.params.id);
 
   if (!note) {
     return res.status(204).end();
@@ -20,4 +20,7 @@ module.exports = async (req, res, next) => {
   req.note = note;
 
   next();
-};
+}
+
+export { authorizationMiddleware };
+export default authorizationMiddleware;

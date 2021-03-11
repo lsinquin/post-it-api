@@ -1,11 +1,11 @@
-const Joi = require("joi");
-const { ERR_INVALID_MAIL } = require("../../errorCodes");
-const {
+import Joi from "joi";
+import { ERR_INVALID_MAIL } from "../../errorCodes";
+import {
   passwordSchema,
   strictPasswordSchema,
-} = require("./passwordValidatorMiddleware");
-const HttpError = require("../../HttpError");
-const validatorBuilder = require("./validatorBuilder");
+} from "./passwordValidatorMiddleware";
+import HttpError from "../../HttpError";
+import validatorBuilder from "./validatorBuilder";
 
 const mailSchema = Joi.string()
   .email()
@@ -28,5 +28,7 @@ const strictAccountSchema = Joi.object({
   password: strictPasswordSchema,
 });
 
-module.exports.signInValidator = validatorBuilder(accountSchema);
-module.exports.postAccountValidator = validatorBuilder(strictAccountSchema);
+const signInValidator = validatorBuilder(accountSchema);
+const postAccountValidator = validatorBuilder(strictAccountSchema);
+
+export { signInValidator, postAccountValidator };

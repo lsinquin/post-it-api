@@ -1,7 +1,7 @@
-const Joi = require("joi");
-const HttpError = require("../../HttpError");
-const { ERR_MISSING_FIELD, ERR_INVALID_PASSWORD } = require("../../errorCodes");
-const validatorBuilder = require("./validatorBuilder");
+import Joi from "joi";
+import HttpError from "../../HttpError";
+import { ERR_MISSING_FIELD, ERR_INVALID_PASSWORD } from "../../errorCodes";
+import validatorBuilder from "./validatorBuilder";
 
 const PASSWORD_MIN_SIZE = 8;
 
@@ -25,8 +25,12 @@ const strictPasswordSchema = passwordSchema
     )
   );
 
-exports.passwordValidator = validatorBuilder(passwordSchema);
-exports.strictPasswordValidator = validatorBuilder(strictPasswordSchema);
+const passwordValidator = validatorBuilder(passwordSchema);
+const strictPasswordValidator = validatorBuilder(strictPasswordSchema);
 
-exports.passwordSchema = passwordSchema;
-exports.strictPasswordSchema = strictPasswordSchema;
+export {
+  passwordSchema,
+  strictPasswordSchema,
+  passwordValidator,
+  strictPasswordValidator,
+};

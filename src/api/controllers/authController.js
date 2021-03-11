@@ -1,9 +1,11 @@
-const authService = require("../../services/authService");
+import { logIn } from "../../services/authService";
 
-exports.signIn = async (req, res) => {
+async function signIn(req, res) {
   const { mail, password } = req.body;
 
-  const token = await authService.signIn(mail, password);
+  const token = await logIn(mail, password);
 
   res.json({ token: token });
-};
+}
+
+export { signIn };

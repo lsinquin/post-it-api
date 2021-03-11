@@ -3,14 +3,23 @@ const asyncRouteFn = require("./asyncRouteFn");
 const noteController = require("../controllers/noteController");
 const authorizationMiddleware = require("../middlewares/authorizationMiddleware");
 const jwtMiddleware = require("../middlewares/jwtMiddleware");
+const noteValidatorMiddleware = require("../middlewares/validatorMiddlewares/noteValidatorMiddleware");
 
 router.use("/", jwtMiddleware);
 router.use("/:id", asyncRouteFn(authorizationMiddleware));
 
 router.get("/", asyncRouteFn(noteController.getAccountNotes));
 router.get("/:id", noteController.getNote);
-router.put("/:id", asyncRouteFn(noteController.updateNote));
 router.delete("/:id", asyncRouteFn(noteController.deleteNote));
-router.post("/", asyncRouteFn(noteController.postNote));
+router.put(
+  "/:id",
+  asyncRouteFn(noteValidatorMiddleware),
+  asyncRouteFn(noteController.updateNote)
+);
+router.post(
+  "/",
+  asyncRouteFn(noteValidatorMiddleware),
+  asyncRouteFn(noteController.postNote)
+);
 
 module.exports = router;

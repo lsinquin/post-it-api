@@ -10,6 +10,7 @@ const NoAccountError = require("../../services/errors/NoAccountError");
 const WrongCredentialsError = require("../../services/errors/WrongCredentialsError");
 
 module.exports = (error, req, res, next) => {
+  // console.log(error);
   if (error instanceof HttpError) {
     return res.status(error.statusCode).send({
       code: error.code,

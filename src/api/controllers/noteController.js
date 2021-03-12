@@ -1,12 +1,12 @@
 import {
-  fetchNotes,
-  saveNote,
+  getNotesByAccountId,
+  modifyNote,
   removeNote,
   createNote,
 } from "../../services/noteService";
 
 async function getAccountNotes(req, res) {
-  const notes = await fetchNotes(req.account.id);
+  const notes = await getNotesByAccountId(req.account.id);
 
   res.json(notes);
 }
@@ -17,10 +17,10 @@ function getNote(req, res) {
   res.json({ id, title, content });
 }
 
-async function updateNote(req, res) {
+async function putNote(req, res) {
   const { title, content } = req.body;
 
-  const updatedNote = await saveNote(req.params.id, title, content);
+  const updatedNote = await modifyNote(req.params.id, title, content);
 
   res.json(updatedNote);
 }
@@ -39,4 +39,4 @@ async function postNote(req, res) {
   res.status(201).json(createdNote);
 }
 
-export { getAccountNotes, getNote, updateNote, deleteNote, postNote };
+export { getAccountNotes, getNote, putNote, deleteNote, postNote };

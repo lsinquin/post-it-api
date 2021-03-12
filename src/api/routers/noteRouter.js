@@ -3,7 +3,7 @@ import asyncRouteFn from "./asyncRouteFn";
 import {
   getAccountNotes,
   getNote,
-  updateNote,
+  putNote,
   deleteNote,
   postNote,
 } from "../controllers/noteController";
@@ -22,7 +22,7 @@ router.delete("/:id", asyncRouteFn(deleteNote));
 router.put(
   "/:id",
   asyncRouteFn(noteValidatorMiddleware),
-  asyncRouteFn(updateNote)
+  asyncRouteFn(putNote)
 );
 router.post("/", asyncRouteFn(noteValidatorMiddleware), asyncRouteFn(postNote));
 

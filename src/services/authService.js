@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { getAccountByMail } from "../db/daos/accountDao";
+import { findAccountByMail } from "../db/daos/accountDao";
 import WrongCredentialsError from "./errors/WrongCredentialsError";
 import NoAccountError from "./errors/NoAccountError";
 
 async function logIn(mail, password) {
-  const account = await getAccountByMail(mail);
+  const account = await findAccountByMail(mail);
 
   if (!account) {
     throw new NoAccountError();

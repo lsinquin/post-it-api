@@ -1,20 +1,20 @@
 import {
-  getNotesByAccountId,
-  getNoteById,
+  findNotesByAccountId,
+  findNoteById,
   insertNote,
   updateNoteById,
   deleteNoteById,
 } from "../db/daos/noteDao";
 
-async function fetchNotes(accountId) {
-  return getNotesByAccountId(accountId);
+async function getNotesByAccountId(accountId) {
+  return findNotesByAccountId(accountId);
 }
 
-async function fetchNote(id) {
-  return getNoteById(id);
+async function getNoteById(id) {
+  return findNoteById(id);
 }
 
-async function saveNote(id, title, content) {
+async function modifyNote(id, title, content) {
   return updateNoteById(id, title, content);
 }
 
@@ -26,4 +26,4 @@ async function createNote(title, content, accountId) {
   return insertNote(title, content, accountId);
 }
 
-export { fetchNotes, fetchNote, saveNote, removeNote, createNote };
+export { getNotesByAccountId, getNoteById, modifyNote, removeNote, createNote };

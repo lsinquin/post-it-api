@@ -1,6 +1,6 @@
 import { query } from "../dbConnection";
 
-async function getNotesByAccountId(accountId) {
+async function findNotesByAccountId(accountId) {
   const {
     rows: notes,
   } = await query(
@@ -11,7 +11,7 @@ async function getNotesByAccountId(accountId) {
   return notes;
 }
 
-async function getNoteById(id) {
+async function findNoteById(id) {
   const {
     rows: [note],
   } = await query("SELECT * FROM note WHERE id = $1", [id]);
@@ -53,8 +53,8 @@ async function deleteNoteById(id) {
 }
 
 export {
-  getNotesByAccountId,
-  getNoteById,
+  findNotesByAccountId,
+  findNoteById,
   insertNote,
   updateNoteById,
   deleteNoteById,

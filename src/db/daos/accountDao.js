@@ -1,6 +1,6 @@
 import { query } from "../dbConnection";
 
-async function getAccountByMail(mail) {
+async function findAccountByMail(mail) {
   const {
     rows: [account],
   } = await query("SELECT * FROM account WHERE mail = $1", [mail]);
@@ -19,4 +19,4 @@ async function insertAccount(mail, password) {
   return insertedAccount;
 }
 
-export { getAccountByMail, insertAccount };
+export { findAccountByMail, insertAccount };

@@ -22,21 +22,13 @@ async function updateNote(req, res) {
 
   const updatedNote = await saveNote(req.params.id, title, content);
 
-  if (!updatedNote) {
-    res.status(204).end();
-  } else {
-    res.json(updatedNote);
-  }
+  res.json(updatedNote);
 }
 
 async function deleteNote(req, res) {
   const deletedNote = await removeNote(req.params.id);
 
-  if (!deletedNote) {
-    res.status(204).end();
-  } else {
-    res.json(deletedNote);
-  }
+  res.json(deletedNote);
 }
 
 async function postNote(req, res) {
@@ -44,7 +36,7 @@ async function postNote(req, res) {
 
   const createdNote = await createNote(title, content, req.account.id);
 
-  res.json(createdNote);
+  res.status(201).json(createdNote);
 }
 
 export { getAccountNotes, getNote, updateNote, deleteNote, postNote };

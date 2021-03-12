@@ -5,7 +5,7 @@ async function postAccount(req, res) {
 
   const createdAccount = await createAccount(mail, password);
 
-  res.json(createdAccount);
+  res.status(201).json(createdAccount);
 }
 
 export { postAccount };

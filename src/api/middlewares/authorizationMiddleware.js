@@ -5,16 +5,8 @@ import HttpError from "../HttpError";
 async function authorizationMiddleware(req, res, next) {
   const note = await fetchNote(req.params.id);
 
-  if (!note) {
-    return res.status(204).end();
-  }
-
-  if (note.accountId !== req.account.id) {
-    throw new HttpError(
-      "Interdiction d'accéder à cette ressource",
-      ERR_NOT_ALLOWED,
-      403
-    );
+  if (!note || note.accountId !== req.account.id) {
+    return res.status(404).end();
   }
 
   req.note = note;

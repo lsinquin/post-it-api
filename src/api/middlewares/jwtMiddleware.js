@@ -8,7 +8,7 @@ function jwtMiddleware(req, res, next) {
   if (!authToken) {
     throw new HttpError(
       "Le header Authorization est manquant",
-      "err_authentification",
+      ERR_AUTHENTIFICATION,
       401
     );
   }

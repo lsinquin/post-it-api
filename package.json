@@ -6,6 +6,9 @@
   "main": "app.js",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": "15.x"
+  },
   "scripts": {
     "start": "node --experimental-specifier-resolution=node src/app.js ",
     "dev": "nodemon --experimental-specifier-resolution=node src/app.js"

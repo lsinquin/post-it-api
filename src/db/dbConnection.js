@@ -2,9 +2,22 @@ import pg from "pg";
 
 const { Pool } = pg;
 
-// Pool will use the following environment variables to connect to  the database :
-// PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT
-const pool = new Pool();
+const databaseURI = process.env.DATABASE_URL;
+
+// No ssl in development mode
+const config =
+  process.env.NODE_ENV === "production"
+    ? {
+        connectionString: databaseURI,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : {
+        connectionString: databaseURI,
+      };
+
+const pool = new Pool(config);
 
 const query = (request, params) => pool.query(request, params);
 

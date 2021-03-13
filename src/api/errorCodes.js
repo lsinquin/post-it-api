@@ -1,5 +1,5 @@
-const ERR_NOT_ALLOWED = "err_authentification";
-const ERR_AUTHENTIFICATION = "err_authorization";
+const ERR_NOT_ALLOWED = "err_authorization";
+const ERR_AUTHENTIFICATION = "err_authentification";
 const ERR_MISSING_FIELD = "err_missing_field";
 const ERR_INVALID_PASSWORD = "err_invalid_password";
 const ERR_INVALID_MAIL = "err_invalid_mail";

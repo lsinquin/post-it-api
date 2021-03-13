@@ -10,7 +10,6 @@ import NoAccountError from "../../services/errors/NoAccountError";
 import WrongCredentialsError from "../../services/errors/WrongCredentialsError";
 
 function errorMiddleware(error, req, res, next) {
-  // console.log(error);
   if (error instanceof HttpError) {
     return res.status(error.statusCode).send({
       code: error.code,
@@ -39,6 +38,7 @@ function errorMiddleware(error, req, res, next) {
     });
   }
 
+  console.log(error);
   return res.status(500).send({
     error: ERR_UNKNOWN,
     message: "Une erreur innatendu a eu lieu",

@@ -1,9 +1,19 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import morgan from "morgan";
 import express from "express";
 import { initRoutes } from "./api/routes";
 
-dotenv.config();
+if (!process.env.DATABASE_URL) {
+  console.error(
+    new Error("Missing mandatory DATABASE_URL environment variable")
+  );
+  process.exit(1);
+}
+
+if (!process.env.JWT_SECRET) {
+  console.log(new Error("Missing mandatory JWT_SECRET environment variable"));
+  process.exit(1);
+}
 
 const app = express();
 

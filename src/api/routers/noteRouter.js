@@ -9,7 +9,6 @@ import {
 } from "../controllers/noteController";
 import { authorizationMiddleware } from "../middlewares/authorizationMiddleware";
 import { jwtMiddleware } from "../middlewares/jwtMiddleware";
-import { noteValidatorMiddleware } from "../middlewares/validatorMiddlewares/noteValidatorMiddleware";
 
 const router = express.Router();
 
@@ -19,12 +18,8 @@ router.use("/:id", asyncRouteFn(authorizationMiddleware));
 router.get("/", asyncRouteFn(getAccountNotes));
 router.get("/:id", getNote);
 router.delete("/:id", asyncRouteFn(deleteNote));
-router.put(
-  "/:id",
-  asyncRouteFn(noteValidatorMiddleware),
-  asyncRouteFn(putNote)
-);
-router.post("/", asyncRouteFn(noteValidatorMiddleware), asyncRouteFn(postNote));
+router.put("/:id", asyncRouteFn(putNote));
+router.post("/", asyncRouteFn(postNote));
 
 export { router };
 export default router;

@@ -11,10 +11,13 @@ async function findNotesByAccountId(accountId) {
   return notes;
 }
 
-async function findNoteById(id) {
+async function findNoteByIdAndAccountId(id, accountId) {
   const {
     rows: [note],
-  } = await query("SELECT * FROM note WHERE id = $1", [id]);
+  } = await query(
+    'SELECT id, title, content FROM note WHERE id = $1 AND "accountId" = $2',
+    [id, accountId]
+  );
 
   return note;
 }
@@ -30,23 +33,23 @@ async function insertNote(title, content, accountId) {
   return insertedNote;
 }
 
-async function updateNoteById(id, title, content) {
+async function updateNoteById(id, title, content, accountId) {
   const {
     rows: [updatedNote],
   } = await query(
-    "UPDATE note SET title = $2, content = $3 WHERE id = $1 RETURNING id, title, content",
-    [id, title, content]
+    'UPDATE note SET title = $2, content = $3 WHERE id = $1 AND "accountId" = $4 RETURNING id, title, content',
+    [id, title, content, accountId]
   );
 
   return updatedNote;
 }
 
-async function deleteNoteById(id) {
+async function deleteNoteById(id, accountId) {
   const {
     rows: [deletedNote],
   } = await query(
-    "DELETE FROM note WHERE id = $1 RETURNING id, title, content",
-    [id]
+    'DELETE FROM note WHERE id = $1 AND "accountId" = $2 RETURNING id, title, content',
+    [id, accountId]
   );
 
   return deletedNote;
@@ -54,7 +57,7 @@ async function deleteNoteById(id) {
 
 export {
   findNotesByAccountId,
-  findNoteById,
+  findNoteByIdAndAccountId,
   insertNote,
   updateNoteById,
   deleteNoteById,

@@ -7,13 +7,11 @@ import {
   deleteNote,
   postNote,
 } from "../controllers/noteController";
-import { authorizationMiddleware } from "../middlewares/authorizationMiddleware";
 import { jwtMiddleware } from "../middlewares/jwtMiddleware";
 
 const router = express.Router();
 
 router.use("/", jwtMiddleware);
-router.use("/:id", asyncRouteFn(authorizationMiddleware));
 
 router.get("/", asyncRouteFn(getAccountNotes));
 router.get("/:id", getNote);

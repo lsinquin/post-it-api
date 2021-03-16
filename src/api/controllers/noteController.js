@@ -4,6 +4,7 @@ import HttpError from "../HttpError";
 import { ERR_MISSING_FIELD } from "../errorCodes";
 import {
   getNotesByAccountId,
+  getNoteById,
   modifyNote,
   removeNote,
   createNote,
@@ -38,24 +39,45 @@ async function getAccountNotes(req, res) {
   res.json(notes);
 }
 
-function getNote(req, res) {
-  const { id, title, content } = req.note;
+async function getNote(req, res) {
+  const { id } = req.params;
+  const { id: accountId } = req.account;
 
-  res.json({ id, title, content });
+  const note = await getNoteById(id, accountId);
+
+  if (!note) {
+    return res.status(404).end();
+  }
+
+  res.json(note);
 }
 
 async function putNote(req, res) {
+  const { id } = req.params;
+  const { id: accountId } = req.account;
+
   const { title, content } = await validateInput(req.body, noteSchema);
 
-  const updatedNote = await modifyNote(req.params.id, title, content);
+  const updatedNote = await modifyNote(id, title, content, accountId);
+
+  if (!updatedNote) {
+    return res.status(404).end();
+  }
 
   res.json(updatedNote);
 }
 
 async function deleteNote(req, res) {
-  const deletedNote = await removeNote(req.params.id);
+  const { id } = req.params;
+  const { id: accountId } = req.account;
 
-  res.json(deletedNote);
+  const deletedNote = await removeNote(id, accountId);
+
+  if (!deletedNote) {
+    return res.status(404).end();
+  }
+
+  res.status(204).end();
 }
 
 async function postNote(req, res) {

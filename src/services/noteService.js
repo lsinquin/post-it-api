@@ -1,28 +1,28 @@
 import {
   findNotesByAccountId,
-  findNoteById,
+  findNoteByIdAndAccountId,
   insertNote,
   updateNoteById,
   deleteNoteById,
 } from "../db/daos/noteDao";
 
-async function getNotesByAccountId(accountId) {
+function getNotesByAccountId(accountId) {
   return findNotesByAccountId(accountId);
 }
 
-async function getNoteById(id) {
-  return findNoteById(id);
+function getNoteById(id, accountId) {
+  return findNoteByIdAndAccountId(id, accountId);
 }
 
-async function modifyNote(id, title, content) {
-  return updateNoteById(id, title, content);
+function modifyNote(id, title, content, accountId) {
+  return updateNoteById(id, title, content, accountId);
 }
 
-async function removeNote(id) {
-  return deleteNoteById(id);
+function removeNote(id, accountId) {
+  return deleteNoteById(id, accountId);
 }
 
-async function createNote(title, content, accountId) {
+function createNote(title, content, accountId) {
   return insertNote(title, content, accountId);
 }
 

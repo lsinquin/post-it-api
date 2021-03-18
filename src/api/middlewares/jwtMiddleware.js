@@ -16,8 +16,8 @@ function jwtMiddleware(req, res, next) {
   try {
     const decodedPayload = jwt.verify(authToken, process.env.JWT_SECRET);
 
-    req.account = {
-      id: decodedPayload.accountId,
+    req.user = {
+      id: decodedPayload.userId,
       mail: decodedPayload.mail,
     };
 

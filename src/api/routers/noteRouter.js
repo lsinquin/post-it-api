@@ -1,7 +1,7 @@
 import express from "express";
 import asyncRouteFn from "./asyncRouteFn";
 import {
-  getAccountNotes,
+  getUserNotes,
   getNote,
   putNote,
   deleteNote,
@@ -13,8 +13,8 @@ const router = express.Router();
 
 router.use("/", jwtMiddleware);
 
-router.get("/", asyncRouteFn(getAccountNotes));
-router.get("/:id", getNote);
+router.get("/", asyncRouteFn(getUserNotes));
+router.get("/:id", asyncRouteFn(getNote));
 router.delete("/:id", asyncRouteFn(deleteNote));
 router.put("/:id", asyncRouteFn(putNote));
 router.post("/", asyncRouteFn(postNote));

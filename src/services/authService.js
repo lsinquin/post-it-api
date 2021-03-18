@@ -1,29 +1,29 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findAccountByMail } from "../db/daos/accountDao";
+import { findUserByMail } from "../db/daos/userDao";
 import WrongCredentialsError from "./errors/WrongCredentialsError";
-import NoAccountError from "./errors/NoAccountError";
+import UserNotFoundError from "./errors/UserNotFoundError";
 
 async function logIn(mail, password) {
-  const account = await findAccountByMail(mail);
+  const user = await findUserByMail(mail);
 
-  if (!account) {
-    throw new NoAccountError();
+  if (!user) {
+    throw new UserNotFoundError();
   }
 
-  const isPasswordCorrect = await bcrypt.compare(password, account.password);
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
   if (!isPasswordCorrect) {
     throw new WrongCredentialsError();
   }
 
-  return generateAccessToken(account.id, account.mail);
+  return generateAccessToken(user.id, user.mail);
 }
 
 function generateAccessToken(id, mail) {
   return jwt.sign(
     {
-      accountId: id,
+      userId: id,
       mail: mail,
     },
     process.env.JWT_SECRET,

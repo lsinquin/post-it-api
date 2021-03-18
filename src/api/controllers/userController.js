@@ -2,11 +2,11 @@ import Joi from "joi";
 import validateInput from "./validateInput";
 import HttpError from "../HttpError";
 import { ERR_INVALID_MAIL, ERR_INVALID_PASSWORD } from "../errorCodes";
-import { createAccount } from "../../services/accountService";
+import { createUser } from "../../services/userService";
 
 const PASSWORD_MIN_SIZE = 8;
 
-const accountSchema = Joi.object({
+const userSchema = Joi.object({
   mail: Joi.string()
     .email()
     .required()
@@ -29,12 +29,12 @@ const accountSchema = Joi.object({
     ),
 });
 
-async function postAccount(req, res) {
-  const { mail, password } = await validateInput(req.body, accountSchema);
+async function postUser(req, res) {
+  const { mail, password } = await validateInput(req.body, userSchema);
 
-  const createdAccount = await createAccount(mail, password);
+  const createdUser = await createUser(mail, password);
 
-  res.status(201).json(createdAccount);
+  res.status(201).json(createdUser);
 }
 
-export { postAccount };
+export { postUser };

@@ -4,7 +4,7 @@ import HttpError from "../HttpError";
 import { ERR_INVALID_MAIL, ERR_MISSING_FIELD } from "../errorCodes";
 import { logIn } from "../../services/authService";
 
-const accountSchema = Joi.object({
+const userSchema = Joi.object({
   mail: Joi.string()
     .email()
     .required()
@@ -27,7 +27,7 @@ const accountSchema = Joi.object({
 });
 
 async function signIn(req, res) {
-  const { mail, password } = await validateInput(req.body, accountSchema);
+  const { mail, password } = await validateInput(req.body, userSchema);
 
   const token = await logIn(mail, password);
 

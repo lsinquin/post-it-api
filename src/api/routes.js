@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import authRouter from "./routers/authRouter";
-import accountRouter from "./routers/accountRouter";
+import userRouter from "./routers/userRouter";
 import noteRouter from "./routers/noteRouter";
 
 import { errorMiddleware } from "./middlewares/errorMiddleware";
@@ -16,7 +16,7 @@ function initRoutes(app) {
 
   app.use("/api/notes", noteRouter);
 
-  app.use("/api/accounts", accountRouter);
+  app.use("/api/users", userRouter);
 
   app.use("/api", authRouter);
 

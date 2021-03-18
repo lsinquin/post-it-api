@@ -1,12 +1,12 @@
 import {
-  ERR_EXISTING_ACCOUNT,
-  ERR_NO_ACCOUNT,
+  ERR_EXISTING_USER,
+  ERR_NO_USER,
   ERR_WRONG_CREDENTIALS,
   ERR_UNKNOWN,
 } from "../errorCodes";
 import HttpError from "../HttpError";
-import ExistingAccountError from "../../services/errors/ExistingAccountError";
-import NoAccountError from "../../services/errors/NoAccountError";
+import ExistingUserError from "../../services/errors/ExistingUserError";
+import UserNotFoundError from "../../services/errors/UserNotFoundError";
 import WrongCredentialsError from "../../services/errors/WrongCredentialsError";
 
 function errorMiddleware(error, req, res, next) {
@@ -17,16 +17,16 @@ function errorMiddleware(error, req, res, next) {
     });
   }
 
-  if (error instanceof ExistingAccountError) {
+  if (error instanceof ExistingUserError) {
     return res.status(400).send({
-      code: ERR_EXISTING_ACCOUNT,
+      code: ERR_EXISTING_USER,
       detail: error.message,
     });
   }
 
-  if (error instanceof NoAccountError) {
+  if (error instanceof UserNotFoundError) {
     return res.status(401).send({
-      code: ERR_NO_ACCOUNT,
+      code: ERR_NO_USER,
       detail: error.message,
     });
   }
@@ -40,8 +40,8 @@ function errorMiddleware(error, req, res, next) {
 
   console.log(error);
   return res.status(500).send({
-    error: ERR_UNKNOWN,
-    message: "Une erreur innatendu a eu lieu",
+    code: ERR_UNKNOWN,
+    detail: "Une erreur inattendue a eu lieu",
   });
 }
 

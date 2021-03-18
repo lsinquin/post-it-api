@@ -1,29 +1,39 @@
 import {
-  findNotesByAccountId,
-  findNoteByIdAndAccountId,
+  findNotesByUserId,
+  findNoteByIdAndUserId,
   insertNote,
-  updateNoteById,
-  deleteNoteById,
+  updateNoteByIdAndUserId,
+  deleteNoteByIdAndUserId,
 } from "../db/daos/noteDao";
 
-function getNotesByAccountId(accountId) {
-  return findNotesByAccountId(accountId);
+function getNotes(userContext) {
+  const { id: userId } = userContext;
+
+  return findNotesByUserId(userId);
 }
 
-function getNoteById(id, accountId) {
-  return findNoteByIdAndAccountId(id, accountId);
+function getNote(id, userContext) {
+  const { id: userId } = userContext;
+
+  return findNoteByIdAndUserId(id, userId);
 }
 
-function modifyNote(id, title, content, accountId) {
-  return updateNoteById(id, title, content, accountId);
+function modifyNote(id, title, content, userContext) {
+  const { id: userId } = userContext;
+
+  return updateNoteByIdAndUserId(id, title, content, userId);
 }
 
-function removeNote(id, accountId) {
-  return deleteNoteById(id, accountId);
+function removeNote(id, userContext) {
+  const { id: userId } = userContext;
+
+  return deleteNoteByIdAndUserId(id, userId);
 }
 
-function createNote(title, content, accountId) {
-  return insertNote(title, content, accountId);
+function createNote(title, content, userContext) {
+  const { id: userId } = userContext;
+
+  return insertNote(title, content, userId);
 }
 
-export { getNotesByAccountId, getNoteById, modifyNote, removeNote, createNote };
+export { getNotes, getNote, modifyNote, removeNote, createNote };

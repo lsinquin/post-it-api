@@ -3,8 +3,8 @@ import validateInput from "./validateInput";
 import HttpError from "../HttpError";
 import { ERR_MISSING_FIELD } from "../errorCodes";
 import {
-  getNotesByAccountId,
-  getNoteById,
+  getNotes,
+  getNote as getNoteService,
   modifyNote,
   removeNote,
   createNote,
@@ -33,17 +33,19 @@ const noteSchema = Joi.object({
     ),
 });
 
-async function getAccountNotes(req, res) {
-  const notes = await getNotesByAccountId(req.account.id);
+async function getUserNotes(req, res) {
+  const userContext = req.user;
+
+  const notes = await getNotes(userContext);
 
   res.json(notes);
 }
 
 async function getNote(req, res) {
   const { id } = req.params;
-  const { id: accountId } = req.account;
+  const userContext = req.user;
 
-  const note = await getNoteById(id, accountId);
+  const note = await getNoteService(id, userContext);
 
   if (!note) {
     return res.status(404).end();
@@ -54,11 +56,11 @@ async function getNote(req, res) {
 
 async function putNote(req, res) {
   const { id } = req.params;
-  const { id: accountId } = req.account;
+  const userContext = req.user;
 
   const { title, content } = await validateInput(req.body, noteSchema);
 
-  const updatedNote = await modifyNote(id, title, content, accountId);
+  const updatedNote = await modifyNote(id, title, content, userContext);
 
   if (!updatedNote) {
     return res.status(404).end();
@@ -69,9 +71,9 @@ async function putNote(req, res) {
 
 async function deleteNote(req, res) {
   const { id } = req.params;
-  const { id: accountId } = req.account;
+  const userContext = req.user;
 
-  const deletedNote = await removeNote(id, accountId);
+  const deletedNote = await removeNote(id, userContext);
 
   if (!deletedNote) {
     return res.status(404).end();
@@ -82,10 +84,11 @@ async function deleteNote(req, res) {
 
 async function postNote(req, res) {
   const { title, content } = await validateInput(req.body, noteSchema);
+  const userContext = req.user;
 
-  const createdNote = await createNote(title, content, req.account.id);
+  const createdNote = await createNote(title, content, userContext);
 
   res.status(201).json(createdNote);
 }
 
-export { getAccountNotes, getNote, putNote, deleteNote, postNote };
+export { getUserNotes, getNote, putNote, deleteNote, postNote };

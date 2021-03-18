@@ -1,10 +1,10 @@
 import express from "express";
 import asyncRouteFn from "./asyncRouteFn";
-import { postAccount } from "../controllers/accountController";
+import { postUser } from "../controllers/userController";
 
 const router = express.Router();
 
-router.post("/", asyncRouteFn(postAccount));
+router.post("/", asyncRouteFn(postUser));
 
 export { router };
 export default router;

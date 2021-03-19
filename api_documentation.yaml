@@ -1,0 +1,203 @@
+openapi: 3.0.0
+info:
+  description: "Documentation de l'API Post-It"
+  title: "Post-It API"
+  version: "0.1.0"  
+servers:
+  - url: https://post-it-api.herokuapp.com/api
+    description: Serveur principal
+tags:
+- name: "Auth"
+- name: "User"
+- name: "Note"
+paths:
+  /signin:
+    post:
+      tags:
+      - "Auth"
+      summary: "Se connecte à l'API"
+      description: "Permet de récupérer un JWT token nécessaire afin de requêter /notes"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mail:
+                  type: string
+                password:
+                  type: string                  
+      responses:
+        "200":
+          description: "Opération réussie"  
+        "400":
+          description: "Requête mal formée"  
+        "401":
+          description: "Identifiants incorrects"
+        "500":
+          description: "Erreur inattendue"          
+  /accounts:
+    post:
+      tags:
+      - "User"
+      summary: "Crée un nouvel utilisateur"
+      description: "Crée un nouvel utilisateur à partir des informations du body" 
+      requestBody:
+              required: true
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      mail:
+                        type: string
+                      password:
+                        type: string                  
+      responses:
+        "201":
+          description: "Utilisateur créé"
+        "400":
+          description: "Requête mal formée ou utilisateur déjà existant"
+        "500":
+          description: "Erreur inattendue"          
+  /notes:
+    get:
+      tags:
+      - "Note"
+      summary: "Récupère toutes les notes d'un utilisateur"
+      description: "Récupère les notes d'un utilisateur à partir du JWT renseigné dans le header Authorization"
+      responses:
+        "200":
+          description: "Opération réussie"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Note'
+        "401":
+          description: "Le header Authorization n'est pas correct ou manquant"
+        "500":
+          description: "Erreur inattendue"          
+    post:
+      tags:
+      - "Note"
+      summary: "Ajoute une nouvelle note"
+      description: "Ajoute une nouvelle note à l'utisateur indiqué via JWT dans le header Authorization"
+      requestBody:
+              required: true
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      content:
+                        type: string      
+      responses:
+        "201":
+          description: "Opération réussie"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        "401":
+          description: "Le header Authorization n'est pas correct ou manquant"                
+        "500":
+          description: "Erreur inattendue"          
+  /notes/{noteId}:
+    get:
+      tags:
+      - "Note"
+      summary: "Récupère une note"
+      description: "Récupère une note à partir de l'identifiant indiqué dans le path"      
+      parameters:
+        - name: noteId
+          in: path
+          required: true
+          description: Identifiant de la note.
+          schema:
+            type : integer
+            minimum: 1      
+      responses:
+        "200":
+          description: "Opération réussie"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        "401":
+          description: "Le header Authorization n'est pas correct ou manquant"                
+        "404":
+          description: "Aucune note n'existe pour cet identifiant ou l'utlisateur indiqué via JWT n'a pas accès à cette note"
+        "500":
+          description: "Erreur inattendue"          
+    put:
+      tags:
+      - "Note"
+      summary: "Modifie une note"
+      description: "Modifie une note à partir de l'identifiant indiqué dans le path et des données du body"
+      parameters:
+        - name: noteId
+          in: path
+          required: true
+          description: Identifiant de la note à modifier.
+          schema:
+            type : integer
+            minimum: 1
+      requestBody:
+              required: true
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      content:
+                        type: string             
+      responses:
+        "200":
+          description: "Note modifiée"
+        "401":
+          description: "Le header Authorization n'est pas correct ou manquant"          
+        "404":
+          description: "Aucune note n'existe pour cet identifiant ou l'utlisateur indiqué via JWT n'a pas accès à cette note"
+        "500":
+          description: "Erreur inattendue"          
+    delete:
+      tags:
+      - "Note"
+      summary: "Supprime une note"
+      description: "Supprime une note à partir de l'identifiant indiqué dans le path"      
+      parameters:
+        - name: noteId
+          in: path
+          required: true
+          description: Identifiant de la note.
+          schema:
+            type : integer
+            minimum: 1           
+      responses:
+        "204":
+          description: "Note supprimée"
+        "401":
+          description: "Le header Authorization n'est pas correct ou manquant"          
+        "404":
+          description: "Aucune note n'existe pour cet identifiant ou l'utlisateur indiqué via JWT n'a pas accès à cette note"
+        "500":
+          description: "Erreur inattendue"          
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+         type: string
+        content:
+          type: string
+      

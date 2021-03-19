@@ -14,10 +14,11 @@ const router = express.Router();
 router.use("/", jwtMiddleware);
 
 router.get("/", asyncRouteFn(getUserNotes));
+router.post("/", asyncRouteFn(postNote));
+
 router.get("/:id", asyncRouteFn(getNote));
 router.delete("/:id", asyncRouteFn(deleteNote));
 router.put("/:id", asyncRouteFn(putNote));
-router.post("/", asyncRouteFn(postNote));
 
 export { router };
 export default router;

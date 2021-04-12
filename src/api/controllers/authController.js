@@ -16,6 +16,7 @@ const userSchema = Joi.object({
       )
     ),
   password: Joi.string()
+    .allow("")
     .required()
     .error(
       new HttpError(

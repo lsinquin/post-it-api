@@ -21,7 +21,7 @@ L'API est dans un état fonctionnel même si certains points sont à améliorer 
 - Permettre l'authentification à partir d'un compte Google, Facebook, etc..
 - Procédure de réinitialisation du mot de passe utilisateur en cas de perte.
 
-## Demo
+## Démo
 
 L'API est hébergée sur [heroku](https://post-it-api.herokuapp.com/) et utilise leur service de base de données PostgreSQL as a service.
 
@@ -42,7 +42,7 @@ Le module [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
 
 ## Installation
 
-Pour utiliser l'API en local, NodeJS (15+) et yarn sont nécessaires.
+Pour utiliser l'API en local, **NodeJS (15+)** et yarn sont nécessaires.
 
 Après avoir cloné le dépôt Git. Tapez la commande suivante pour installer les dépendances :
 
